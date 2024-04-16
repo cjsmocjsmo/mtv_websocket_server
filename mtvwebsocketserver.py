@@ -10,7 +10,12 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("index.html")
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
-    
+    # m = None
+    # try:
+    #     m = mpv.Context()
+    # except mpv.MPVError:
+    #     print('failed creating context')
+    #     # return 1
 
     def open(self):
         print("WebSocket opened")
@@ -36,7 +41,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             m.set_option('input-vo-keyboard')
             m.set_option("fs", True)
             m.initialize()
-
+            print("LOADING FILE")
             m.command('loadfile', param)
 
             while True:
