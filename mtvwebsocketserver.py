@@ -150,7 +150,7 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
       self.write_message("Invalid command")
 
   def on_close(self):
-    self.mpv_context.stop()
+    # self.mpv_context.stop()
     print("Video stopped and connection closed")
 
 def make_app():
