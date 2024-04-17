@@ -1,7 +1,7 @@
 from mpv import MPVError, Context
 
 class MTVPlayer:
-    def __init__(self, path):
+    def __init__(self):
          
         try:
             self.mpv_context = Context()
@@ -16,17 +16,22 @@ class MTVPlayer:
             print(f"Failed to create MPV context: {e}")
             self.close()
             
-        self.LOADFILE = self.mpv_context.command('loadfile', path)
-        self.PLAY = self.mpv_context.command('playlist-play-index=current')
-        self.STOP = self.mpv_context.command('stop')
+        # self.LOADFILE = self.mpv_context.command('loadfile', path)
+        # self.PLAY = self.mpv_context.command('playlist-play-index=current')
+        # self.STOP = self.mpv_context.command('stop')
 
-    def loadfile(self):
-        print("Video playing")
-        return self.LOADFILE
+    def loadfile(self, path):
+        self.mpv_context.command('loadfile', path)
+        self.mpv_context.command('playlist-play-index=current')
+        return
+        # print("Video playing")
+        # return self.LOADFILE
     
     def stop(self):
-        print("Video stopped")
-        return self.STOP
+        self.mpv_context.command('stop')
+        return
+        # print("Video stopped")
+        # return self.STOP
     
     def play(self):
         print("Video resumed")
