@@ -130,27 +130,30 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
     if mtvcommand == "TIME":
         txt = f"Current time: {MTVUT.get_time()}"
         self.write_message(txt)
-    elif mtvcommand == "PLAY":
-      if not self.mpv_context.is_playing:
+    elif mtvcommand == "LOADFILE":
+        #vid should autostart
         self.mpv_context.command('loadfile', path)
-        # self.mpv_context.play()
         self.write_message("Video playing")
-    elif mtvcommand == "PAUSE":
-      if self.mpv_context.is_playing:
-        self.mpv_context.pause()
+    elif mtvcommand == "STOP":
+        #Stops vidio playback but does not clean player
+        self.mpv_context.command('stop')
         self.write_message("Video paused")
-    elif mtvcommand == "RESUME":
-      if not self.mpv_context.is_playing:
-        self.mpv_context.play()
+    elif mtvcommand == "PLAY":
+        #Resumes video playback after pause
+        self.mpv_context.command('play')
         self.write_message("Video resumed")
-    # elif mtvcommand == "STOP":
-    #   self.mpv_context.stop()
-    #   self.write_message("Video stopped")
+    elif mtvcommand == "QUIT":
+        self.mpv_context.command("quit")
+        #quits the player
+        self.write_message("Video stopped")
+    elif mtvcommand == "DESTROY":
+        self.mpv_context.terminate_destroy()
+        self.write_message("Video destroyed")
     else:
-      self.write_message("Invalid command")
+        self.write_message("Invalid command")
 
   def on_close(self):
-    # self.mpv_context.stop()
+    self.mpv_context.terminate_destroy()
     print("Video stopped and connection closed")
 
 def make_app():
