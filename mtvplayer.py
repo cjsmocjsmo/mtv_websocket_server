@@ -18,9 +18,9 @@ class MTVPlayer:
             
         self.LOADFILE = self.mpv_context.command('loadfile', path)
 
-    # def loadfile(self, path):
-    #     self.mpv_context.command('loadfile', path)
-    #     return "Video playing"
+    def loadfile(self):
+        print("Video playing")
+        return self.LOADFILE
     
     def stop(self):
         self.mpv_context.command('stop')
