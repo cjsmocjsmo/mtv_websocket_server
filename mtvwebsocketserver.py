@@ -96,7 +96,7 @@
 #     print("Server started on port 5000")
 #     tornado.ioloop.IOLoop.current().start()
 
-
+import os
 import tornado.ioloop
 import tornado.websocket
 import tornado.httpserver
@@ -149,12 +149,18 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
     self.mpv_context.stop()
     print("Video stopped and connection closed")
 
+def make_app():
+    settings = {
+        "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+        "static_path": os.path.join(os.path.dirname(__file__), "static")
+    }
+    return tornado.web.Application([
+        (r"/", MainHandler),
+        (r"/mtvws", VideoHandler),
+    ], **settings)
+
 if __name__ == "__main__":
-  app = tornado.websocket.Application([
-      (r"/", MainHandler),
-      (r"/mtvws", VideoHandler),
-  ])
-  http_server = tornado.httpserver.HTTPServer(app)
-  http_server.listen(5000)
-  print("WebSocket server listening on port 8888")
-  tornado.ioloop.IOLoop.current().start()
+    app = make_app()
+    app.listen(5000)
+    print("Server started on port 5000")
+    tornado.ioloop.IOLoop.current().start()
