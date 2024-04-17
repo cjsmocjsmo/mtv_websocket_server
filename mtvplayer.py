@@ -17,18 +17,20 @@ class MTVPlayer:
             self.close()
             
         self.LOADFILE = self.mpv_context.command('loadfile', path)
+        self.PLAY = self.mpv_context.command('playlist-play-index=current')
+        self.STOP = self.mpv_context.command('stop')
 
     def loadfile(self):
         print("Video playing")
         return self.LOADFILE
     
     def stop(self):
-        self.mpv_context.command('stop')
-        return "Video stopped"
+        print("Video stopped")
+        return self.STOP
     
     def play(self):
-        self.mpv_context.command('playlist-play-index=current')
-        return "Video resumed"
+        print("Video resumed")
+        return self.PLAY
     
     def quit(self):
         self.mpv_context.command("quit")
