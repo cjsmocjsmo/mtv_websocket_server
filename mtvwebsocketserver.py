@@ -139,8 +139,8 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
         self.mpv_context.command('stop')
         self.write_message("Video paused")
     elif mtvcommand == "PLAY":
-        #Resumes video playback after pause
-        self.mpv_context.command('play')
+        # Resumes video playback after pause
+        self.mpv_context.command('set_property', 'pause', 'no')
         self.write_message("Video resumed")
     elif mtvcommand == "QUIT":
         self.mpv_context.command("quit")
