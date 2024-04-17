@@ -103,7 +103,7 @@ import tornado.httpserver
 
 from mpv import MPVError, Context
 
-class VideoHandler(tornado.websockets.WebSocketHandler):
+class VideoHandler(tornado.websocket.WebSocketHandler):
   def open(self):
     try:
       self.mpv_context = Context()
@@ -145,7 +145,7 @@ class VideoHandler(tornado.websockets.WebSocketHandler):
     print("Video stopped and connection closed")
 
 if __name__ == "__main__":
-  app = tornado.websockets.Application([
+  app = tornado.websocket.Application([
       (r"/video", VideoHandler),
   ])
   http_server = tornado.httpserver.HTTPServer(app)
