@@ -103,6 +103,11 @@ import tornado.httpserver
 
 from mpv import MPVError, Context
 
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("index.html")
+
+
 class VideoHandler(tornado.websocket.WebSocketHandler):
   def open(self):
     try:
@@ -146,9 +151,10 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
 
 if __name__ == "__main__":
   app = tornado.websocket.Application([
-      (r"/video", VideoHandler),
+      (r"/", MainHandler),
+      (r"/mtvws", VideoHandler),
   ])
   http_server = tornado.httpserver.HTTPServer(app)
-  http_server.listen(8888)
+  http_server.listen(5000)
   print("WebSocket server listening on port 8888")
   tornado.ioloop.IOLoop.current().start()
