@@ -119,7 +119,7 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
       self.mpv_context.set_option("fs", True)
       self.mpv_context.initialize()
     #   self.mpv_context.command('loadfile', video_path)
-      print("Video loaded and playing")
+      print("Video Player Ready")
     except MPVError as e:
       print(f"Failed to create MPV context: {e}")
       self.close()
@@ -134,7 +134,7 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
       if not self.mpv_context.is_playing:
         self.mpv_context.command('loadfile', path)
         # self.mpv_context.play()
-        self.write_message("Video resumed")
+        self.write_message("Video playing")
     elif mtvcommand == "PAUSE":
       if self.mpv_context.is_playing:
         self.mpv_context.pause()
@@ -143,9 +143,9 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
       if not self.mpv_context.is_playing:
         self.mpv_context.play()
         self.write_message("Video resumed")
-    elif mtvcommand == "STOP":
-      self.mpv_context.stop()
-      self.write_message("Video stopped")
+    # elif mtvcommand == "STOP":
+    #   self.mpv_context.stop()
+    #   self.write_message("Video stopped")
     else:
       self.write_message("Invalid command")
 
