@@ -18,7 +18,6 @@ class MTVPlayer:
 
     def loadfile(self, path):
         self.mpv_context.command('loadfile', path)
-        self.mpv_context.command('set-property', 'playlist-play-index', 0)
         return
     
     def stop(self):
@@ -26,13 +25,13 @@ class MTVPlayer:
         return
     
     def play(self):
-        self.mpv_context.command('set-property', 'playlist-play-index', 0)
+        self.mpv_context.command('play')
 
     def quit(self):
         self.mpv_context.command("quit")
     
-    def clear(self):
-        self.mpv_context.command("playlist-clear")
-        print("Playlist cleared")
-        return "Connection closed"
+    # def clear(self):
+    #     self.mpv_context.command("playlist-clear")
+    #     print("Playlist cleared")
+    #     return "Connection closed"
     
