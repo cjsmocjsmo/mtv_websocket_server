@@ -15,31 +15,19 @@ class MTVPlayer:
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
             self.close()
-            
-        # self.LOADFILE = self.mpv_context.command('loadfile', path)
-        # self.PLAY = self.mpv_context.command('playlist-play-index=current')
-        # self.STOP = self.mpv_context.command('stop')
 
     def loadfile(self, path):
         self.mpv_context.command('loadfile', path)
         self.mpv_context.command('playlist-play-index=current')
-        return
-        # print("Video playing")
-        # return self.LOADFILE
     
     def stop(self):
         self.mpv_context.command('stop')
-        return
-        # print("Video stopped")
-        # return self.STOP
     
     def play(self):
-        print("Video resumed")
-        return self.PLAY
-    
+        self.mpv_context.command('playlist-play-index=1')
+
     def quit(self):
         self.mpv_context.command("quit")
-        return "Video stopped"
     
     def clear(self):
         self.mpv_context.command("playlist-clear")
