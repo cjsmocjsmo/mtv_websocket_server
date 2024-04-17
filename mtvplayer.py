@@ -1,7 +1,7 @@
 from mpv import MPVError, Context
 
 class MTVPlayer:
-    def __init__(self):
+    def __init__(self, path):
          
         try:
             self.mpv_context = Context()
@@ -15,10 +15,11 @@ class MTVPlayer:
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
             self.close()
+            self.LOADFILE = self.mpv_context.command('loadfile', path)
 
-    def loadfile(self, path):
-        self.mpv_context.command('loadfile', path)
-        return "Video playing"
+    # def loadfile(self, path):
+    #     self.mpv_context.command('loadfile', path)
+    #     return "Video playing"
     
     def stop(self):
         self.mpv_context.command('stop')
