@@ -128,7 +128,8 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
   def on_message(self, message):
     mtvcommand, path = message.split(":")
     if mtvcommand == "TIME":
-        response = f"Current time: {MTVUT.get_time()}"
+        txt = f"Current time: {MTVUT.get_time()}"
+        self.write_message(txt)
     elif mtvcommand == "PLAY":
       if not self.mpv_context.is_playing:
         self.mpv_context.command('loadfile', path)
