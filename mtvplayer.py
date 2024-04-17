@@ -15,7 +15,8 @@ class MTVPlayer:
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
             self.close()
-            self.LOADFILE = self.mpv_context.command('loadfile', path)
+            
+        self.LOADFILE = self.mpv_context.command('loadfile', path)
 
     # def loadfile(self, path):
     #     self.mpv_context.command('loadfile', path)
