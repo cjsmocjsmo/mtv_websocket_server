@@ -104,6 +104,8 @@ import mtvutils as MTVUT
 
 from mpv import MPVError, Context
 
+video_path = "/home/pimedia/PINAS/bazmnt/MTV/Movies/Cartoons/Zootopia (2016).mp4"
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html")
@@ -118,7 +120,7 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
       self.mpv_context.set_option('input-vo-keyboard')
       self.mpv_context.set_option("fs", True)
       self.mpv_context.initialize()
-    #   self.mpv_context.command('loadfile', video_path)
+      self.mpv_context.command('loadfile', video_path)
       print("Video Player Ready")
     except MPVError as e:
       print(f"Failed to create MPV context: {e}")
@@ -140,20 +142,17 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
         self.write_message("Video paused")
     elif mtvcommand == "PLAY":
         # Resumes video playback after pause
-        self.mpv_context.command('set_property', 'pause', 'no')
+        self.mpv_context.command('playlist-play-index=current')
         self.write_message("Video resumed")
     elif mtvcommand == "QUIT":
         self.mpv_context.command("quit")
         #quits the player
         self.write_message("Video stopped")
-    elif mtvcommand == "DESTROY":
-        self.mpv_context.terminate_destroy()
-        self.write_message("Video destroyed")
     else:
         self.write_message("Invalid command")
 
   def on_close(self):
-    self.mpv_context.terminate_destroy()
+    self.mpv_context.command("playlist-clear")
     print("Video stopped and connection closed")
 
 def make_app():
