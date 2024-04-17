@@ -18,13 +18,13 @@ class MTVPlayer:
 
     def loadfile(self, path):
         self.mpv_context.command('loadfile', path)
-        self.mpv_context.command('playlist-play-index=current')
+        self.mpv_context.command('playlist-play-index 0')
     
     def stop(self):
         self.mpv_context.command('stop')
     
     def play(self):
-        self.mpv_context.command('playlist-play-index=1')
+        self.mpv_context.command('playlist-play-index 0')
 
     def quit(self):
         self.mpv_context.command("quit")
