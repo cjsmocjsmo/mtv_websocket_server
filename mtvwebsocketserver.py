@@ -96,11 +96,87 @@
 #     print("Server started on port 5000")
 #     tornado.ioloop.IOLoop.current().start()
 
+# import os
+# import tornado.ioloop
+# import tornado.websocket
+# import tornado.httpserver
+# import mtvutils as MTVUT
+
+# from mpv import MPVError, Context
+
+# video_path = "/home/pimedia/PINAS/bazmnt/MTV/Movies/Cartoons/Zootopia (2016).mp4"
+
+# class MainHandler(tornado.web.RequestHandler):
+#     def get(self):
+#         self.render("index.html")
+
+
+# class VideoHandler(tornado.websocket.WebSocketHandler):
+#   def open(self):
+#     try:
+#       self.mpv_context = Context()
+#       self.mpv_context.set_option('input-default-bindings')
+#       self.mpv_context.set_option('osc')
+#       self.mpv_context.set_option('input-vo-keyboard')
+#       self.mpv_context.set_option("fs", True)
+#       self.mpv_context.initialize()
+#     #   self.mpv_context.command('loadfile', video_path)
+#       print("Video Player Ready")
+#     except MPVError as e:
+#       print(f"Failed to create MPV context: {e}")
+#       self.close()
+#       return
+
+#   def on_message(self, message):
+#     mtvcommand, path = message.split(":")
+#     if mtvcommand == "TIME":
+#         txt = f"Current time: {MTVUT.get_time()}"
+#         self.write_message(txt)
+#     elif mtvcommand == "LOADFILE":
+#         #vid should autostart
+#         self.mpv_context.command('loadfile', path)
+#         self.write_message("Video playing")
+#     elif mtvcommand == "STOP":
+#         #Stops vidio playback but does not clean player
+#         self.mpv_context.command('stop')
+#         self.write_message("Video paused")
+#     elif mtvcommand == "PLAY":
+#         # Resumes video playback after pause
+#         self.mpv_context.command('playlist-play-index=current')
+#         self.write_message("Video resumed")
+#     elif mtvcommand == "QUIT":
+#         self.mpv_context.command("quit")
+#         #quits the player
+#         self.write_message("Video stopped")
+#     else:
+#         self.write_message("Invalid command")
+
+#   def on_close(self):
+#     self.mpv_context.command("playlist-clear")
+#     print("Video stopped and connection closed")
+
+# def make_app():
+#     settings = {
+#         "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+#         "static_path": os.path.join(os.path.dirname(__file__), "static")
+#     }
+#     return tornado.web.Application([
+#         (r"/", MainHandler),
+#         (r"/mtvws", VideoHandler),
+#     ], **settings)
+
+# if __name__ == "__main__":
+#     app = make_app()
+#     app.listen(5000)
+#     print("Server started on port 5000")
+#     tornado.ioloop.IOLoop.current().start()
+
 import os
 import tornado.ioloop
 import tornado.websocket
 import tornado.httpserver
 import mtvutils as MTVUT
+import mtvplayer as MTVP
 
 from mpv import MPVError, Context
 
@@ -113,47 +189,31 @@ class MainHandler(tornado.web.RequestHandler):
 
 class VideoHandler(tornado.websocket.WebSocketHandler):
   def open(self):
-    try:
-      self.mpv_context = Context()
-      self.mpv_context.set_option('input-default-bindings')
-      self.mpv_context.set_option('osc')
-      self.mpv_context.set_option('input-vo-keyboard')
-      self.mpv_context.set_option("fs", True)
-      self.mpv_context.initialize()
-      self.mpv_context.command('loadfile', video_path)
-      print("Video Player Ready")
-    except MPVError as e:
-      print(f"Failed to create MPV context: {e}")
-      self.close()
-      return
+    self.write_message("Connection established")
 
   def on_message(self, message):
+    mtvplayer = MTVP.MTVPlayer()
     mtvcommand, path = message.split(":")
     if mtvcommand == "TIME":
         txt = f"Current time: {MTVUT.get_time()}"
         self.write_message(txt)
     elif mtvcommand == "LOADFILE":
-        #vid should autostart
-        self.mpv_context.command('loadfile', path)
+        mtvplayer.loadfile(path)
         self.write_message("Video playing")
     elif mtvcommand == "STOP":
-        #Stops vidio playback but does not clean player
-        self.mpv_context.command('stop')
+        mtvplayer.stop()
         self.write_message("Video paused")
     elif mtvcommand == "PLAY":
-        # Resumes video playback after pause
-        self.mpv_context.command('playlist-play-index=current')
+        mtvplayer.play()
         self.write_message("Video resumed")
     elif mtvcommand == "QUIT":
-        self.mpv_context.command("quit")
-        #quits the player
+        mtvplayer.quit()
         self.write_message("Video stopped")
     else:
         self.write_message("Invalid command")
 
   def on_close(self):
-    self.mpv_context.command("playlist-clear")
-    print("Video stopped and connection closed")
+    print("Connection closed")
 
 def make_app():
     settings = {
