@@ -100,6 +100,7 @@ import os
 import tornado.ioloop
 import tornado.websocket
 import tornado.httpserver
+import mtvutils as MTVUT
 
 from mpv import MPVError, Context
 
@@ -126,7 +127,9 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
 
   def on_message(self, message):
     mtvcommand, path = message.split(":")
-    if mtvcommand == "PLAY":
+    if mtvcommand == "TIME":
+        response = f"Current time: {MTVUT.get_time()}"
+    elif mtvcommand == "PLAY":
       if not self.mpv_context.is_playing:
         self.mpv_context.command('loadfile', path)
         # self.mpv_context.play()
