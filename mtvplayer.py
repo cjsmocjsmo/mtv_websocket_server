@@ -1,7 +1,7 @@
 from mpv import MPVError, Context
 
 class MTVPlayer:
-    def __init__(self):
+    def __init__(self, video_path):
          
         try:
             self.mpv_context = Context()
@@ -10,10 +10,8 @@ class MTVPlayer:
             self.mpv_context.set_option('input-vo-keyboard')
             self.mpv_context.set_option("fs", True)
             self.mpv_context.set_option("idle", "yes")
-            boo = self.mpv_context.available_properties()
-            print(boo)
             self.mpv_context.initialize()
-            #   self.mpv_context.command('loadfile', video_path)
+            self.mpv_context.command('loadfile', video_path)
             print("Video Player Ready")
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
