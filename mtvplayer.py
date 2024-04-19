@@ -31,7 +31,7 @@ class MTVPlayer:
         self.mpv_context.command('loadfile', path)
 
     def quit(self):
-        self.mpv_context.comand("quit", 1)
+        self.mpv_context.command("quit", 1)
     
     # def clear(self):
     #     self.mpv_context.command("playlist-clear")
