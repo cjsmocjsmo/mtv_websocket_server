@@ -10,6 +10,8 @@ class MTVPlayer:
             self.mpv_context.set_option('input-vo-keyboard')
             self.mpv_context.set_option("fs", True)
             self.mpv_context.set_option("idle", "yes")
+            boo = self.mpv_context.available_properties()
+            print(boo)
             self.mpv_context.initialize()
             #   self.mpv_context.command('loadfile', video_path)
             print("Video Player Ready")
@@ -26,8 +28,8 @@ class MTVPlayer:
     #     return self.mpv_context
     
     def play(self, path):
-        boo = self.mpv_context.available_properties()
-        print(boo)
+        # boo = self.mpv_context.available_properties()
+        # print(boo)
         self.mpv_context.command('loadfile', path)
 
     def quit(self):
