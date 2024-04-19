@@ -26,7 +26,9 @@ class MTVPlayer:
     #     return self.mpv_context
     
     def play(self, path):
-        self.mpv_context.play(path)
+        boo = self.mpv_context.available_properties()
+        print(boo)
+        self.mpv_context.command('loadfile', path)
 
     def quit(self):
         self.mpv_context.quit(code=1)
