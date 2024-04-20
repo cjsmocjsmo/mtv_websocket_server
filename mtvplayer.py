@@ -40,6 +40,7 @@ class MTVPlayer:
             self.close()
     
     def play(self, path):
+        print("play function invoked")
         self.mpv_context.command('loadfile', path)
 
     def stop(self):
