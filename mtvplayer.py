@@ -50,7 +50,7 @@ class MTVPlayer:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='MTVPlayer CLI')
-    # parser.add_argument('--play', metavar='path', type=str, help='the path to the video file to play')
+    parser.add_argument('--play', metavar='path', type=str, help='the path to the video file to play')
     parser.add_argument('--stop', action='store_true', help='stop the currently playing video')
 
     args = parser.parse_args()
