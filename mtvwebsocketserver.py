@@ -1,9 +1,10 @@
 import os
 import time
+import subprocess
 import tornado.ioloop
 import tornado.websocket
 import tornado.httpserver
-import mtvplayer as MTVP
+# import mtvplayer as MTVP
 from mpv import MPVError, Context
 
 # class MTVPlayer:
@@ -36,18 +37,21 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
         self.write_message("Connection established")
 
     def on_message(self, message):
-        mtvplayer = MTVP.MTVPlayer()
+        # mtvplayer = MTVP.MTVPlayer()
         # mtvplayer = MTVPlayer()
+        
         mtvcommand, path = message.split(":")
         print(path)
         if mtvcommand == "TIME":
             txt = f"Current time: {time.ctime()}"
             self.write_message(txt)
         elif mtvcommand == "PLAY":
-            mtvplayer.play(path)
+            command = ["python3", "mtvplayer.py", "--play", path]
+            subprocess.run(command)
             self.write_message("Video playing")
         elif mtvcommand == "STOP":
-            mtvplayer.stop()
+            command = ["python3", "mtvplayer.py", "--stop"]
+            subprocess.run(command)
             self.write_message("Video paused")
         else:
             self.write_message("Invalid command")
@@ -70,3 +74,4 @@ if __name__ == "__main__":
     app.listen(5000)
     print("Server started on port 5000")
     tornado.ioloop.IOLoop.current().start()
+
