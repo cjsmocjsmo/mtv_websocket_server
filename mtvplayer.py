@@ -57,7 +57,6 @@ if __name__ == "__main__":
 
     player = MTVPlayer(args.play)
 
-    if args.play:
-        player.play(args.play)
-    elif args.stop:
+    
+    if args.stop:
         player.stop()
