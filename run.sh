@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cd /home/pimedia/mtvwebsocket/
 
 if [ -n "$VIRUTAL_ENV" ]; then

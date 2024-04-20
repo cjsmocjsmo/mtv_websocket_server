@@ -2,7 +2,6 @@ from mpv import MPVError, Context
 
 class MTVPlayer:
     def __init__(self):
-         
         try:
             self.mpv_context = Context()
             self.mpv_context.set_option('input-default-bindings')
