@@ -36,8 +36,8 @@ class VideoHandler(tornado.websocket.WebSocketHandler):
         self.write_message("Connection established")
 
     def on_message(self, message):
-        # mtvplayer = MTVP.MTVPlayer()
-        mtvplayer = MTVPlayer()
+        mtvplayer = MTVP.MTVPlayer()
+        # mtvplayer = MTVPlayer()
         mtvcommand, path = message.split(":")
         print(path)
         if mtvcommand == "TIME":
