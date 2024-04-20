@@ -1,72 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebSocket Test</title>
-    <script>
-        var socket = new WebSocket("ws://192.168.0.90:5000/mtvws"); // Replace with your WebSocket server URL
-
-        socket.onopen = function() {
-            console.log("WebSocket connection established.");
-            // You can perform any necessary actions here when the connection is opened
-        };
-
-        socket.onmessage = function(event) {
-            console.log("Received message: " + event.data);
-            // You can handle the received message here
-        };
-
-        socket.onclose = function(event) {
-            console.log("WebSocket connection closed with code: " + event.code);
-            // You can handle the WebSocket connection close event here
-        };
-
-        function sendMessage() {
-            var message = document.getElementById("messageInput").value;
-            socket.send(message);
-            console.log("Sent message: " + message);
-            // You can send a message to the WebSocket server here
-        }
-        
-        function playMessage() {
-            var path = "/home/pimedia/PINAS/bazmnt/MTV/Movies/MTV/TheRock/Jumanji The Next Level (2019).mp4"
-            var message = "PLAY" + ":" + path;
-            socket.send(message);
-            console.log("Sent message: " + message);
-            // You can send a message to the WebSocket server here
-        }
-
-        function pauseMessage() {
-            var message = "PAUSE:now";
-            socket.send(message);
-            console.log("Sent message: " + message);
-            // You can send a message to the WebSocket server here
-        }
-
-        function stopMessage() {
-            var message = "STOP:now";
-            socket.send(message);
-            console.log("Sent message: " + message);
-            // You can send a message to the WebSocket server here
-        }
-
-        function resumeMessage() {
-            var message = "RESUME:now";
-            socket.send(message);
-            console.log("Sent message: " + message);
-            // You can send a message to the WebSocket server here
-        }
-    </script>
+    <title>WebSocket Server</title>
+    <link rel="stylesheet" href="/static/mtv.css">
 </head>
 <body>
-    <h1>WebSocket Test</h1>
-    <input type="text" id="messageInput" placeholder="Enter message">
-    <button onclick="sendMessage()">Send Message</button>
-
-    <div>
-        <button onclick="playMessage()">Play</button>
-        <button onclick="pauseMessage()">Pause</button>
-        <button onclick="stopMessage()">Stop</button>
-        <button onclick="resumeMessage()">Resume</button>
-    </div>
+    <h1>WebSocket Server</h1>
 </body>
 </html>

@@ -4,7 +4,6 @@ import tornado.ioloop
 import tornado.websocket
 import tornado.httpserver
 import mtvplayer as MTVP
-from mpv import MPVError, Context
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
