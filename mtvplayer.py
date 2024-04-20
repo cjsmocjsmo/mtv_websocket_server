@@ -33,14 +33,16 @@ class MTVPlayer:
             self.mpv_context.set_option('input-vo-keyboard')
             self.mpv_context.set_option("fs", True)
             self.mpv_context.set_option("idle", "yes")
-            self.mpv_context.initialize()
-            print("Video Player Ready")
+            
+            
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
             self.close()
     
     def play(self, path):
         print("play function invoked")
+        self.mpv_context.initialize()
+        print("Video Player Ready")
         self.mpv_context.command('loadfile', path)
 
     def stop(self):
