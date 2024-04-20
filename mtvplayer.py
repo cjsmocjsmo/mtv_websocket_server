@@ -25,7 +25,7 @@ import argparse
 from mpv import MPVError, Context
 
 class MTVPlayer:
-    def __init__(self):
+    def __init__(self, path):
         try:
             self.mpv_context = Context()
             self.mpv_context.set_option('input-default-bindings')
@@ -33,24 +33,24 @@ class MTVPlayer:
             self.mpv_context.set_option('input-vo-keyboard')
             self.mpv_context.set_option("fs", True)
             self.mpv_context.set_option("idle", "yes")
-            
-            
+            self.mpv_context.initialize()
+            self.mpv_context.command('loadfile', path)
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
             self.close()
     
-    def play(self, path):
-        print("play function invoked")
-        self.mpv_context.initialize()
-        print("Video Player Ready")
-        self.mpv_context.command('loadfile', path)
+    # def play(self, path):
+    #     print("play function invoked")
+        
+    #     print("Video Player Ready")
+        
 
     def stop(self):
         self.mpv_context.command("stop")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='MTVPlayer CLI')
-    parser.add_argument('--play', metavar='path', type=str, help='the path to the video file to play')
+    # parser.add_argument('--play', metavar='path', type=str, help='the path to the video file to play')
     parser.add_argument('--stop', action='store_true', help='stop the currently playing video')
 
     args = parser.parse_args()
