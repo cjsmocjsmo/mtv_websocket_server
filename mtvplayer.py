@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    player = MTVPlayer()
+    player = MTVPlayer(args.play)
 
     if args.play:
         player.play(args.play)
