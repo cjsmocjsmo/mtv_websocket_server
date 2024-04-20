@@ -11,7 +11,6 @@ class MTVPlayer:
             self.mpv_context.set_option("fs", True)
             self.mpv_context.set_option("idle", "yes")
             self.mpv_context.initialize()
-            # self.mpv_context.command('loadfile', video_path)
             print("Video Player Ready")
         except MPVError as e:
             print(f"Failed to create MPV context: {e}")
@@ -20,6 +19,6 @@ class MTVPlayer:
     def play(self, path):
         self.mpv_context.command('loadfile', path)
 
-    def quit(self):
+    def stop(self):
         self.mpv_context.command("stop")
     
